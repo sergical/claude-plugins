@@ -1,0 +1,14 @@
+{
+  "name": "image-diet",
+  "description": "Shrinks large images before they enter Claude Code's context",
+  "owner": {
+    "name": "Sergiy Dybskiy",
+    "url": "https://github.com/sergical"
+  },
+  "plugins": [
+    {
+      "name": "image-diet",
+      "source": "./"
+    }
+  ]
+}

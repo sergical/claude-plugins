@@ -1,0 +1,9 @@
+{
+  "name": "image-diet",
+  "version": "0.1.0",
+  "description": "Shrinks large images from Read and MCP tools before they enter Claude's context",
+  "author": { "name": "Sergiy Dybskiy", "url": "https://github.com/sergical" },
+  "repository": "https://github.com/sergical/image-diet",
+  "license": "MIT",
+  "keywords": ["images", "screenshots", "tokens", "context", "mod"]
+}
