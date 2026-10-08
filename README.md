@@ -20,6 +20,7 @@ Needs a Claude Code version with mods (function hooks), and `sips` (built into m
 
 - **Read tool:** a PNG or JPEG larger than 1280 px on its long edge is shrunk before Claude sees it.
 - **MCP tools:** image blocks in any `mcp__*` tool result (browser screenshots, Figma, and so on) are shrunk the same way.
+- **Click tools are skipped:** computer-use and browser tools that click by screenshot pixel position (names containing `computer`, `cua` or `browser_batch`) are left alone. A smaller screenshot would make every click land in the wrong place.
 - **Claude is told:** each shrink adds a short note with the old and new size, so Claude knows it is looking at a smaller copy.
 - **Full size on demand:** a file with `.full.` in its name is never shrunk. When Claude needs full detail, it can copy the file to such a name and Read it.
 - **Safe failure:** if the resize fails for any reason, Claude gets the original image.
@@ -31,6 +32,7 @@ It does **not** shrink images you paste into the prompt. A mod can see that a pa
 | Env var | Default | Effect |
 |---|---|---|
 | `IMAGE_DIET_MAX_EDGE` | `1280` | Long-edge size in pixels. `1024` saves more; `1568` keeps more detail. |
+| `IMAGE_DIET_SKIP_TOOLS` | `computer\|cua\|browser_batch` | Regex (case-insensitive) of MCP tool names to leave alone. Add any tool that takes click coordinates from its own screenshots. |
 
 ## Why 1280
 

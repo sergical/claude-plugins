@@ -2,6 +2,9 @@ import type { EngineInterface, McpContentBlock, Register } from 'claude-code'
 
 const DEFAULT_MAX_EDGE = 1280
 const FULL_SIZE_MARKER = '.full.'
+// These tools take click coordinates in the pixels of the screenshot they
+// returned, so a shrunk screenshot would move every click.
+const DEFAULT_SKIP_TOOLS = 'computer|cua|browser_batch'
 const EXT: Record<string, string> = { 'image/png': 'png', 'image/jpeg': 'jpg' }
 
 // Prints "<oldW> <oldH> <newW> <newH>" then the resized base64 on one line.
@@ -44,7 +47,7 @@ const isMcpResult = (r: unknown): r is McpResult => Array.isArray((r as McpResul
 async function shrink($: EngineInterface, base64: string, mime: string | undefined): Promise<Shrunk | undefined> {
   const ext = mime && EXT[mime]
   if (!ext) return undefined
-  const maxEdge = Number($.env.get('IMAGE_DIET_MAX_EDGE')) || DEFAULT_MAX_EDGE
+  const maxEdge = Number(await $.env.get('IMAGE_DIET_MAX_EDGE')) || DEFAULT_MAX_EDGE
   const ran = await $.process.run(['sh', '-c', SHRINK_SH, 'sh', String(maxEdge), ext], {
     stdin: base64,
     timeoutMs: 10_000,
@@ -92,6 +95,8 @@ export const register: Register = on => {
     if (!e.tool.startsWith('mcp__') || !('result' in ran) || !isMcpResult(ran.result)) return ran
     const result = ran.result
     try {
+      const skip = new RegExp((await $.env.get('IMAGE_DIET_SKIP_TOOLS')) || DEFAULT_SKIP_TOOLS, 'i')
+      if (skip.test(e.tool)) return ran
       const notes: string[] = []
       const content = await Promise.all(
         result.content.map(async block => {

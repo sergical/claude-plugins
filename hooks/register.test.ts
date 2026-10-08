@@ -80,6 +80,50 @@ test('shrinks image blocks in MCP results and keeps text blocks', async ($, on) 
   expect(ran.context[0]).toContain('from 2560x1600 to 1280x800')
 })
 
+test('skips tools that click by screenshot coordinates', async ($, on) => {
+  mock.env(on, {})
+  let runs = 0
+  on('process.run', () => {
+    runs++
+    return ok(`2560 1600 1280 800\n${SMALL}`)
+  })
+  on('tool.call', () =>
+    ({ result: { isError: false, content: [{ type: 'image', data: BIG, mimeType: 'image/png' }] } }) as never,
+  )
+
+  for (const tool of ['mcp__computer-use__screenshot', 'mcp__claude-in-chrome__computer', 'mcp__cmux-cua__zoom']) {
+    const ran = (await $.tool.call({ tool } as never)) as any
+    expect(ran.result.content[0].data).toBe(BIG)
+  }
+  expect(runs).toBe(0)
+})
+
+test('IMAGE_DIET_SKIP_TOOLS replaces the skip list', async ($, on) => {
+  mock.env(on, { IMAGE_DIET_SKIP_TOOLS: 'figma' })
+  on('process.run', () => ok(`2560 1600 1280 800\n${SMALL}`))
+  on('tool.call', () =>
+    ({ result: { isError: false, content: [{ type: 'image', data: BIG, mimeType: 'image/png' }] } }) as never,
+  )
+
+  const skipped = (await $.tool.call({ tool: 'mcp__figma__get_screenshot' } as never)) as any
+  expect(skipped.result.content[0].data).toBe(BIG)
+  const shrunk = (await $.tool.call({ tool: 'mcp__computer-use__screenshot' } as never)) as any
+  expect(shrunk.result.content[0].data).toBe(SMALL)
+})
+
+test('IMAGE_DIET_MAX_EDGE sets the size', async ($, on) => {
+  mock.env(on, { IMAGE_DIET_MAX_EDGE: '1024' })
+  const runs: (readonly string[])[] = []
+  on('process.run', ($, e) => {
+    runs.push(e.argv)
+    return ok(`2000 1250 1024 640\n${SMALL}`)
+  })
+  on('tool.call', { tool: 'Read' }, () => ({ result: readImage(BIG) }) as never)
+
+  await $.tool.call({ tool: 'Read', file_path: '/tmp/shot.png' })
+  expect(runs[0]?.slice(-2)).toEqual(['1024', 'png'])
+})
+
 test('passes the original through when resizing fails', async ($, on) => {
   mock.env(on, {})
   on('process.run', () => ok('', 1))

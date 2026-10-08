@@ -1,6 +1,6 @@
 {
   "name": "image-diet",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Shrinks large images from Read and MCP tools before they enter Claude's context",
   "author": { "name": "Sergiy Dybskiy", "url": "https://github.com/sergical" },
   "repository": "https://github.com/sergical/image-diet",
