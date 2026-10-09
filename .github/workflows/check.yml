@@ -1,0 +1,34 @@
+name: check
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  plugins:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Claude Code
+        run: |
+          curl -fsSL https://claude.ai/install.sh | bash
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+      - name: Validate marketplace
+        run: claude plugin validate . --strict
+      - name: Validate and test each plugin
+        run: |
+          set -e
+          for dir in plugins/*/; do
+            name=$(basename "$dir")
+            echo "::group::$name"
+            manifest=$(jq -r .name "$dir.claude-plugin/plugin.json")
+            jq -e --arg n "$name" --arg s "./plugins/$name" '.plugins[] | select(.name == $n and .source == $s)' .claude-plugin/marketplace.json > /dev/null \
+              || { echo "::error::$name has no matching entry in marketplace.json"; exit 1; }
+            [ "$manifest" = "$name" ] || { echo "::error::$dir plugin.json name is $manifest"; exit 1; }
+            claude plugin validate "$dir" --strict
+            if find "$dir" -name "*.test.ts*" | grep -q .; then
+              claude plugin test "$dir"
+            fi
+            echo "::endgroup::"
+          done

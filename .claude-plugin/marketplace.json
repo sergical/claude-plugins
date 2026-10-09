@@ -1,6 +1,6 @@
 {
-  "name": "image-diet",
-  "description": "Shrinks large images before they enter Claude Code's context",
+  "name": "sergical",
+  "description": "Claude Code plugins and mods by Sergiy Dybskiy",
   "owner": {
     "name": "Sergiy Dybskiy",
     "url": "https://github.com/sergical"
@@ -8,7 +8,10 @@
   "plugins": [
     {
       "name": "image-diet",
-      "source": "./"
+      "source": "./plugins/image-diet",
+      "description": "Shrinks large images from Read and MCP tools before they enter Claude's context",
+      "category": "mod",
+      "tags": ["mod", "images", "tokens"]
     }
   ]
 }

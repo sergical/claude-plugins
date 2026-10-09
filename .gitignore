@@ -1,7 +1,8 @@
 .claude-plugin/types/
-eval/html/
-eval/masters/
-eval/sizes/
-eval/raw/
-eval/jobs.txt
-eval/truth.json
+plugins/*/.claude-plugin/types/
+plugins/image-diet/eval/html/
+plugins/image-diet/eval/masters/
+plugins/image-diet/eval/sizes/
+plugins/image-diet/eval/raw/
+plugins/image-diet/eval/jobs.txt
+plugins/image-diet/eval/truth.json

@@ -1,9 +1,10 @@
 {
   "name": "image-diet",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Shrinks large images from Read and MCP tools before they enter Claude's context",
   "author": { "name": "Sergiy Dybskiy", "url": "https://github.com/sergical" },
-  "repository": "https://github.com/sergical/image-diet",
+  "homepage": "https://github.com/sergical/claude-plugins/tree/main/plugins/image-diet",
+  "repository": "https://github.com/sergical/claude-plugins",
   "license": "MIT",
   "keywords": ["images", "screenshots", "tokens", "context", "mod"]
 }
