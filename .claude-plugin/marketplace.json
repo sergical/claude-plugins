@@ -12,6 +12,13 @@
       "description": "Shrinks large images from Read and MCP tools before they enter Claude's context",
       "category": "mod",
       "tags": ["mod", "images", "tokens"]
+    },
+    {
+      "name": "handoffs",
+      "source": "./plugins/handoffs",
+      "description": "Switch subagent handoffs mid-session: normal, all on the main model, or off",
+      "category": "mod",
+      "tags": ["mod", "subagents", "agents"]
     }
   ]
 }

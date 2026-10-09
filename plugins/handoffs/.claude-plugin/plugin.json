@@ -1,0 +1,11 @@
+{
+  "name": "handoffs",
+  "version": "0.1.0",
+  "description": "Switch subagent handoffs mid-session: normal, all on the main model, or off",
+  "author": { "name": "Sergiy Dybskiy", "url": "https://github.com/sergical" },
+  "homepage": "https://github.com/sergical/claude-plugins/tree/main/plugins/handoffs",
+  "repository": "https://github.com/sergical/claude-plugins",
+  "license": "MIT",
+  "keywords": ["subagents", "agents", "model", "mod"],
+  "types": "./types/index.d.ts"
+}
