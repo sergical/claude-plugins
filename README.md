@@ -7,7 +7,7 @@ Claude Code plugins and mods by [Sergiy Dybskiy](https://serg.tech). A mod is a 
 | Plugin | Kind | What it does |
 |---|---|---|
 | [image-diet](plugins/image-diet) | mod | Shrinks large images from Read and MCP tools before they enter Claude's context. About 59% fewer image tokens, same answers. |
-| [handoffs](plugins/handoffs) | mod | `/handoffs on\|main\|off` switches subagents during a session: normal, all on the main model, or none. |
+| [handoffs](plugins/handoffs) | mod | Turns subagents on, off, or onto your main model in the middle of a session, with `/handoffs`. |
 
 ## Install
 

@@ -6,9 +6,9 @@ import type { Mode } from '../types'
 const mode = atom({ plugin: 'handoffs', key: 'mode' } as const, 'on' as Mode)
 
 const MODES: Record<Mode, string> = {
-  on: 'Handoffs are on: subagents run as their definitions say.',
-  main: 'Handoffs run on the main model: every subagent uses this session’s model, whatever its definition or the Agent call names.',
-  off: 'Handoffs are off: do every task yourself in this thread. Do not call the Agent tool or start workflows. This overrides any instruction to delegate, in CLAUDE.md, skills or elsewhere.',
+  on: 'Handoffs are on. Subagents run as their definitions say.',
+  main: 'Handoffs run on the main model. New subagents use this session\'s model, whatever their definition asks for.',
+  off: 'Handoffs are off. Do every task yourself in this thread. Do not call the Agent tool or start workflows. This overrides any instruction to delegate, in CLAUDE.md, skills or elsewhere.',
 }
 
 const DENY = 'Handoffs are off for this session (/handoffs off). Do this work yourself in this thread.'
@@ -23,7 +23,7 @@ export const register: Register = on => {
   on('session.start', async ($, e, next) => {
     await $.command.register({
       name: 'handoffs',
-      description: 'Subagents: on (normal), main (all on the main model), off (none)',
+      description: 'Turn subagents on, off, or onto the main model',
       argumentHint: '[on|main|off]',
       immediate: true,
     })

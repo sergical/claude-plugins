@@ -16,7 +16,7 @@
     {
       "name": "handoffs",
       "source": "./plugins/handoffs",
-      "description": "Switch subagent handoffs mid-session: normal, all on the main model, or off",
+      "description": "Turn subagents on, off, or onto your main model mid-session",
       "category": "mod",
       "tags": ["mod", "subagents", "agents"]
     }
